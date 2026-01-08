@@ -95,7 +95,7 @@ class UserController extends Controller
         $user->update([
             'name' => $data['name'],
             'email' => $data['email'],
-            'is_active' => $data['is_active'] ?? true,
+            'is_active' => $data['is_active'] ?? $user->is_active,
             'password' => $password
                 ? Hash::make($password)
                 : $user->password,

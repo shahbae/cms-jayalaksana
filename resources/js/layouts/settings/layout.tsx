@@ -5,7 +5,6 @@ import { useActiveUrl } from '@/hooks/use-active-url';
 import { cn, toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit } from '@/routes/profile';
-import { show } from '@/routes/two-factor';
 import { edit as editPassword } from '@/routes/user-password';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
@@ -15,7 +14,7 @@ type LinkNavItem = Extract<NavItem, { href: unknown }>;
 
 const sidebarNavItems: LinkNavItem[] = [
     {
-        title: 'Profile',
+        title: 'Profil',
         href: edit(),
         icon: null,
     },
@@ -24,13 +23,13 @@ const sidebarNavItems: LinkNavItem[] = [
         href: editPassword(),
         icon: null,
     },
+    // {
+    //     title: 'Two-Factor Auth',
+    //     href: show(),
+    //     icon: null,
+    // },
     {
-        title: 'Two-Factor Auth',
-        href: show(),
-        icon: null,
-    },
-    {
-        title: 'Appearance',
+        title: 'Pemilihan Tampilan',
         href: editAppearance(),
         icon: null,
     },
@@ -47,15 +46,15 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     return (
         <div className="px-4 py-6">
             <Heading
-                title="Settings"
-                description="Manage your profile and account settings"
+                title="Pengaturan"
+                description="Ubah pengaturan aplikasi"
             />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav
                         className="flex flex-col space-y-1 space-x-0"
-                        aria-label="Settings"
+                        aria-label="Pengaturan"
                     >
                         {sidebarNavItems.map((item, index) => (
                             <Button
