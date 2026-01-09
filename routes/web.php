@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +31,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ===============================
     Route::middleware('role:Admin')->group(function () {
         Route::resource('categories', CategoryController::class);
+    });
+
+    // ===============================
+    // ARTICLE MANAGEMENT (ADMIN ONLY)
+    // ===============================
+    Route::middleware('role:Admin')->group(function () {
+        Route::resource('articles', ArticleController::class);
     });
 });
 
