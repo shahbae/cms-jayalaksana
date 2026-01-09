@@ -1,4 +1,3 @@
-import { TiptapEditor } from '@/components/editor/tiptap-editor';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,7 +12,9 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { toast } from 'sonner';
 
+import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ArticleFormValues, articleSchema } from '../schema/article.schema';
 import { Category } from '../types/type';
@@ -23,6 +24,9 @@ interface Props {
 }
 
 export default function ArticleCreate({ categories }: Props) {
+    const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(
+        null,
+    );
     const breadcrumbs = [
         { title: 'Dashboard', href: '/dashboard' },
         { title: 'Articles', href: '/articles' },
@@ -68,7 +72,7 @@ export default function ArticleCreate({ categories }: Props) {
                     {/* HEADER */}
                     <div>
                         <h1 className="text-2xl font-bold">Buat Artikel</h1>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                             Tulis dan kelola konten artikel sebelum
                             dipublikasikan.
                         </p>
@@ -150,17 +154,59 @@ export default function ArticleCreate({ categories }: Props) {
                             </div>
                         </div>
 
+                        {/* THUMBNAIL */}
+                        <div className="space-y-2">
+                            <Label>Thumbnail</Label>
+
+                            {thumbnailPreview && (
+                                <div className="relative w-40 overflow-hidden rounded-md border">
+                                    <img
+                                        src={thumbnailPreview}
+                                        alt="Preview thumbnail"
+                                        className="h-24 w-full object-cover"
+                                    />
+                                </div>
+                            )}
+
+                            <Input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                    const file = e.target.files?.[0] || null;
+
+                                    setValue('thumbnail', file || undefined, {
+                                        shouldValidate: true,
+                                    });
+
+                                    if (file) {
+                                        const url = URL.createObjectURL(file);
+                                        setThumbnailPreview(url);
+                                    } else {
+                                        setThumbnailPreview(null);
+                                    }
+                                }}
+                            />
+
+                            {errors.thumbnail && (
+                                <p className="text-sm text-red-500">
+                                    {errors.thumbnail.message}
+                                </p>
+                            )}
+                        </div>
+
                         {/* CONTENT */}
                         <div className="space-y-1">
                             <Label>Konten</Label>
-                            <TiptapEditor
-                                value={content}
+
+                            <SimpleEditor
+                                value={watch('content')}
                                 onChange={(html) =>
                                     setValue('content', html, {
                                         shouldValidate: true,
                                     })
                                 }
                             />
+
                             {errors.content && (
                                 <p className="text-sm text-red-500">
                                     {errors.content.message}

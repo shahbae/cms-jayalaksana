@@ -1,0 +1,132 @@
+.simple-editor-wrapper {
+    --tt-toolbar-height: 44px;
+    --tt-theme-text: var(--tt-gray-light-900);
+    color: var(--tt-theme-text);
+    background-color: var(--tt-bg-color);
+    border: 1px solid var(--tt-border-color);
+    border-radius: var(--tt-radius-md);
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    overscroll-behavior: none;
+    width: 100%;
+    overflow: auto;
+}
+
+.dark .simple-editor-wrapper {
+    --tt-theme-text: var(--tt-gray-dark-900);
+}
+
+.simple-editor-wrapper,
+.simple-editor-wrapper * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--tt-scrollbar-color) transparent;
+}
+
+.simple-editor-wrapper::-webkit-scrollbar {
+    width: 0.25rem;
+}
+
+.simple-editor-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--tt-scrollbar-color);
+    border-radius: 9999px;
+}
+
+.simple-editor-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.simple-editor-wrapper .tiptap.ProseMirror {
+    font-family: 'DM Sans', sans-serif;
+}
+
+.simple-editor-content {
+    max-width: 648px;
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.simple-editor-content .tiptap.ProseMirror.simple-editor {
+    flex: 1;
+    padding: 3rem 3rem 30vh;
+}
+
+@media screen and (max-width: 480px) {
+    .simple-editor-content .tiptap.ProseMirror.simple-editor {
+        padding: 1rem 1.5rem 30vh;
+    }
+}
+
+/* ======================================================
+   Tiptap Simple Editor – CMS Full Width Override
+   ====================================================== */
+
+/* Wrapper editor */
+.simple-editor-wrapper {
+    width: 100%;
+}
+
+/* Area konten editor */
+.simple-editor-content {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0;
+}
+
+/* ProseMirror (area mengetik) */
+.simple-editor-content .ProseMirror {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem;
+    min-height: 300px;
+}
+
+/* Optional: lebih rapi untuk CMS */
+.simple-editor-content .ProseMirror > * {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* ======================================================
+   Editor Animations (Scoped)
+   ====================================================== */
+
+@keyframes editor-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes editor-scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ======================================================
+   Scope ONLY to editor
+   ====================================================== */
+
+.simple-editor-wrapper {
+    .animate-fade-in {
+        animation: editor-fade-in 150ms ease-out;
+    }
+
+    .animate-scale-in {
+        animation: editor-scale-in 120ms ease-out;
+    }
+}

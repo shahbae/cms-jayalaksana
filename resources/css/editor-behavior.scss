@@ -1,0 +1,15 @@
+/* ======================================================
+   Editor-only behavior (SAFE)
+   ====================================================== */
+
+.simple-editor-wrapper,
+.simple-editor-wrapper * {
+    box-sizing: border-box;
+}
+
+/* Transition hanya untuk editor UI */
+.simple-editor-wrapper * {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-duration: var(--tt-transition-duration-default);
+    transition-timing-function: var(--tt-transition-easing-default);
+}

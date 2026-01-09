@@ -11,12 +11,7 @@ interface Props {
     className?: string;
 }
 
-export function TiptapEditor({
-    value = '',
-    onChange,
-    placeholder = 'Tulis konten di sini...',
-    className,
-}: Props) {
+export function TiptapEditor({ value = '', onChange, className }: Props) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -43,7 +38,7 @@ export function TiptapEditor({
         if (editor.getHTML() !== value) {
             editor.commands.setContent(value || '');
         }
-    }, [value]);
+    }, [value, editor]);
 
     if (!editor) return null;
 
