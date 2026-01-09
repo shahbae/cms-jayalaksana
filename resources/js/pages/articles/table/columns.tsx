@@ -36,7 +36,7 @@ export const columns: ColumnDef<Article>[] = [
     },
     {
         accessorKey: 'author.name',
-        header: 'Author',
+        header: 'Penulis',
     },
     {
         accessorKey: 'status',
@@ -44,7 +44,7 @@ export const columns: ColumnDef<Article>[] = [
         cell: ({ row }) =>
             row.original.status === 'published' ? (
                 <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                    Published
+                    Publik
                 </Badge>
             ) : (
                 <Badge variant="secondary">Draft</Badge>

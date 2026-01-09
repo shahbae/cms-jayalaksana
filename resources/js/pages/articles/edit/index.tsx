@@ -2,35 +2,40 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 
 import ArticleForm from '../components/article-form';
-import { Category } from '../types/type';
+import { Article, Category } from '../types/type';
 
 interface Props {
     categories: Category[];
+    article: Article;
 }
 
-export default function ArticleCreate({ categories }: Props) {
+export default function ArticleEdit({ categories, article }: Props) {
     const breadcrumbs = [
         { title: 'Dashboard', href: '/dashboard' },
         { title: 'Artikel', href: '/articles' },
-        { title: 'Buat Artikel', href: '/articles/create' },
+        { title: 'Edit Artikel', href: `/articles/${article.id}/edit` },
     ];
 
     return (
         <>
-            <Head title="Create Article" />
+            <Head title="Edit Artikel" />
 
             <AppLayout breadcrumbs={breadcrumbs}>
                 <div className="space-y-6 px-4 py-6 sm:p-6">
                     {/* HEADER */}
                     <div>
-                        <h1 className="text-2xl font-bold">Buat Artikel</h1>
+                        <h1 className="text-2xl font-bold">Edit Artikel</h1>
                         <p className="text-sm text-muted-foreground">
-                            Tulis dan kelola konten sebelum dipublikasikan.
+                            Ubah dan perbarui konten artikel.
                         </p>
                     </div>
 
                     {/* FORM */}
-                    <ArticleForm mode="create" categories={categories} />
+                    <ArticleForm
+                        mode="edit"
+                        article={article}
+                        categories={categories}
+                    />
                 </div>
             </AppLayout>
         </>

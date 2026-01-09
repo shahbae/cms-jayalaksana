@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -133,42 +134,70 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return Inertia::render('articles/edit', [
+        return Inertia::render('articles/edit/index', [
             'article' => [
                 'id'          => $article->id,
                 'title'       => $article->title,
                 'content'     => $article->content,
                 'thumbnail'   => $article->thumbnail,
                 'status'      => $article->status,
-                'category_id' => $article->category_id,
+                'category' => [
+                    'id'   => $article->category->id,
+                    'name' => $article->category->name,
+                ],
             ],
             'categories' => Category::select('id', 'name')->orderBy('name')->get(),
         ]);
     }
 
-    /**
-     * Update the specified article in storage.
-     */
     public function update(Request $request, Article $article)
     {
         $validated = $request->validate([
             'title'       => ['required', 'string', 'max:255'],
             'content'     => ['required', 'string'],
-            'thumbnail'   => ['nullable', 'string', 'max:255'],
+            'thumbnail'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'status'      => ['required', 'in:draft,published'],
             'category_id' => ['required', 'exists:categories,id'],
         ]);
 
+        // Handle thumbnail only if a new file is uploaded
+        if ($request->hasFile('thumbnail')) {
+            // Optional: delete old file
+            if ($article->thumbnail) {
+                Storage::disk('public')->delete($article->thumbnail);
+            }
+
+            $validated['thumbnail'] = $request
+                ->file('thumbnail')
+                ->store('articles/thumbnails', 'public');
+        } else {
+            // 🔥 THIS is the key: do NOT touch thumbnail if none uploaded
+            unset($validated['thumbnail']);
+        }
+
+        // Update article
         $article->update([
             'title'       => $validated['title'],
             'content'     => $validated['content'],
-            'thumbnail'   => $validated['thumbnail'] ?? null,
             'status'      => $validated['status'],
             'category_id' => $validated['category_id'],
+            'thumbnail'   => $validated['thumbnail'] ?? $article->thumbnail,
         ]);
 
-        return back()->with('success', 'Artikel berhasil diperbarui');
+        // Handle published_at logic
+        if ($article->isDirty('status')) {
+            $article->published_at = $article->status === 'published'
+                ? now()
+                : null;
+            $article->save();
+        }
+
+        // 5. Redirect
+        return redirect()
+            ->route('articles.index')
+            ->with('success', 'Artikel berhasil diperbarui');
     }
+
 
     /**
      * Remove the specified article from storage.

@@ -50,9 +50,9 @@ export function TableToolbar({ search, status }: Props) {
                     <SelectValue placeholder="Filter status" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="all">Semua</SelectItem>
+                    <SelectItem value="all">Semua Status</SelectItem>
                     <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="published">Publik</SelectItem>
                 </SelectContent>
             </Select>
         </div>

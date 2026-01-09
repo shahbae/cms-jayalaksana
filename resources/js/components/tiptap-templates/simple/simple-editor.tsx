@@ -210,7 +210,7 @@ export function SimpleEditor({ value = '', onChange }: Props) {
             TaskList,
             TaskItem.configure({ nested: true }),
             Highlight.configure({ multicolor: true }),
-            ResizableImage,
+            ResizableImage.configure({ allowBase64: true }),
             Typography,
             Superscript,
             Subscript,

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
 import { columns } from './table/columns';
 import { DataTable } from './table/data-table';
 import { TableToolbar } from './table/table-toolbar';
@@ -45,7 +46,9 @@ export default function ArticlesIndex({ articles, filters }: Props) {
                         </div>
 
                         <Button asChild>
-                            <Link href="/articles/create">Tambah Artikel</Link>
+                            <Link href="/articles/create">
+                                <Plus /> Buat
+                            </Link>
                         </Button>
                     </div>
 
