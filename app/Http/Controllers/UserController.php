@@ -70,7 +70,7 @@ class UserController extends Controller
 
         $user->syncRoles([$data['role']]);
 
-        return to_route('users.index')->with('success', 'User created');
+        return to_route('users.index')->with('success', 'Pengguna berhasil dibuat');
     }
 
     public function edit(User $user)
@@ -103,17 +103,17 @@ class UserController extends Controller
 
         $user->syncRoles([$data['role']]);
 
-        return to_route('users.index')->with('success', 'User updated');
+        return to_route('users.index')->with('success', 'Pengguna berhasil diperbarui');
     }
 
     public function destroy(User $user)
     {
         if ($user->id === Auth::id()) {
-            return back()->withErrors('You cannot delete your own account');
+            return back()->with('error', 'Tidak dapat menghapus akun sendiri');
         }
 
         $user->delete();
 
-        return to_route('users.index')->with('success', 'User deleted');
+        return to_route('users.index')->with('success', 'Pengguna berhasil dihapus');
     }
 }

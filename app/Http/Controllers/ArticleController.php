@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ArticleController extends Controller
@@ -77,26 +78,55 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Validasi
         $validated = $request->validate([
             'title'       => ['required', 'string', 'max:255'],
             'content'     => ['required', 'string'],
-            'thumbnail'   => ['nullable', 'string', 'max:255'],
+            'thumbnail'   => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'status'      => ['required', 'in:draft,published'],
             'category_id' => ['required', 'exists:categories,id'],
         ]);
 
+        // 2. Generate slug
+        $slug = Str::slug($validated['title']);
+
+        // Pastikan slug unik
+        $originalSlug = $slug;
+        $i = 1;
+        while (Article::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $i++;
+        }
+
+        // 3. Handle thumbnail upload
+        $thumbnailPath = null;
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request
+                ->file('thumbnail')
+                ->store('articles/thumbnails', 'public');
+        }
+
+        // 4. Simpan artikel
         Article::create([
             'title'       => $validated['title'],
+            'slug'        => $slug,
             'content'     => $validated['content'],
-            'thumbnail'   => $validated['thumbnail'] ?? null,
+            'thumbnail'   => $thumbnailPath,
             'status'      => $validated['status'],
             'category_id' => $validated['category_id'],
             'author_id'   => $request->user()->id,
+            'published_at' => $validated['status'] === 'published'
+                ? now()
+                : null,
         ]);
 
-        return to_route('articles.index')
+        // 5. Redirect
+        return redirect()
+            ->route('articles.index')
             ->with('success', 'Artikel berhasil dibuat');
     }
+
+
 
     /**
      * Show the form for editing the specified article.

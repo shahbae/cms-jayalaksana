@@ -12,7 +12,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { CategoryFormValues, categorySchema } from '../schema/category.schema';
 
 interface Props {
@@ -45,7 +44,6 @@ export function CategoryModal({ mode, open, onOpenChange, item }: Props) {
             router.put(`/categories/${item.id}`, values, {
                 preserveScroll: true,
                 onSuccess: () => {
-                    toast.success('Kategori diperbarui');
                     onOpenChange(false);
                 },
             });
@@ -53,7 +51,6 @@ export function CategoryModal({ mode, open, onOpenChange, item }: Props) {
             router.post('/categories', values, {
                 preserveScroll: true,
                 onSuccess: () => {
-                    toast.success('Kategori dibuat');
                     onOpenChange(false);
                 },
             });

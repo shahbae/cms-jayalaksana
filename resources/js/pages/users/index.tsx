@@ -3,7 +3,6 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { UserModal } from './modal/user-modal';
 import { columns } from './table/columns';
 import { DataTable } from './table/data-table';
@@ -25,12 +24,9 @@ interface Props {
         per_page: number;
         search?: string | null;
     };
-    success?: string;
 }
 
-export default function UsersIndex({ users, filters, success }: Props) {
-    if (success) toast.success(success);
-
+export default function UsersIndex({ users, filters }: Props) {
     const [createOpen, setCreateOpen] = useState(false);
 
     const breadcrumbs = [

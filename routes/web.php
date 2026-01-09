@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -38,6 +39,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ===============================
     Route::middleware('role:Admin')->group(function () {
         Route::resource('articles', ArticleController::class);
+
+        Route::post('tiptap/image-upload', function (Request $request) {
+            $validated = $request->validate([
+                'file' => ['required', 'file', 'image', 'max:5120'],
+            ]);
+
+            $path = $validated['file']->storePublicly('tiptap', 'public');
+
+            return response()->json([
+                'url' => asset('storage/'.$path),
+            ]);
+        })->name('tiptap.image-upload');
     });
 });
 

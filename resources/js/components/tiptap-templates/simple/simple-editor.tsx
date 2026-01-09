@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 
 // --- Tiptap Core Extensions ---
 import { Highlight } from '@tiptap/extension-highlight';
-import { Image } from '@tiptap/extension-image';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
@@ -30,6 +29,7 @@ import '@/components/tiptap-node/heading-node/heading-node.scss';
 import { HorizontalRule } from '@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node-extension';
 import '@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss';
 import '@/components/tiptap-node/image-node/image-node.scss';
+import { ResizableImage } from '@/components/tiptap-node/image-node/resizable-image-extension';
 import { ImageUploadNode } from '@/components/tiptap-node/image-upload-node/image-upload-node-extension';
 import '@/components/tiptap-node/list-node/list-node.scss';
 import '@/components/tiptap-node/paragraph-node/paragraph-node.scss';
@@ -210,7 +210,7 @@ export function SimpleEditor({ value = '', onChange }: Props) {
             TaskList,
             TaskItem.configure({ nested: true }),
             Highlight.configure({ multicolor: true }),
-            Image,
+            ResizableImage,
             Typography,
             Superscript,
             Subscript,

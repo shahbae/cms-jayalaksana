@@ -19,7 +19,6 @@ import {
 
 import { router } from '@inertiajs/react';
 import { useEffect } from 'react';
-import { toast } from 'sonner';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -66,7 +65,6 @@ export function UserModal({ mode, defaultValues, open, onOpenChange }: Props) {
                 preserveScroll: true,
 
                 onSuccess: () => {
-                    toast.success('Pengguna diperbarui dengan sukses');
                     form.reset();
                     onOpenChange(false);
                 },
@@ -76,7 +74,6 @@ export function UserModal({ mode, defaultValues, open, onOpenChange }: Props) {
                 preserveScroll: true,
 
                 onSuccess: () => {
-                    toast.success('Pengguna dibuat dengan sukses');
                     form.reset();
                     onOpenChange(false);
                 },

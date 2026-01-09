@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import { toast } from 'sonner';
 import { columns } from './table/columns';
 import { DataTable } from './table/data-table';
 import { TableToolbar } from './table/table-toolbar';
@@ -21,12 +20,9 @@ interface Props {
         search?: string | null;
         status?: string | null;
     };
-    success?: string;
 }
 
-export default function ArticlesIndex({ articles, filters, success }: Props) {
-    if (success) toast.success(success);
-
+export default function ArticlesIndex({ articles, filters }: Props) {
     const breadcrumbs = [
         { title: 'Dashboard', href: '/dashboard' },
         { title: 'Articles', href: '/articles' },
